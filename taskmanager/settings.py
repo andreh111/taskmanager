@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-bm_ipi1uu=@tg&qgk2c6c!ay5wc^xue!!l9#v@@c%5699)s-3q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
@@ -80,9 +80,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'taskmanager_db',
-        'USER': 'andrehabboud',
-        'PASSWORD': '4a50d6E700$$',
-        'HOST': 'localhost',
+        'USER': 'andreabboud',
+        'PASSWORD': '4a50d6e700',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

@@ -2,13 +2,21 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:latest
+    image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=taskmanager_db
-      - POSTGRES_USER=andrehabboud
+      - POSTGRES_USER=andreabboud
       - POSTGRES_PASSWORD=4a50d6E700$$
+
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 4a50d6E700$$
+    ports:
+      - "27017:27017"
 
   web:
     build: .
@@ -19,8 +27,10 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - mongodb
     environment:
       - DATABASE_URL=postgres://andrehabboud:4a50d6E700$$@db:5432/taskmanager_db
 
 volumes:
   postgres_data:
+  mongo_data:
