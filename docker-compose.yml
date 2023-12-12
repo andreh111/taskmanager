@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=taskmanager_db
+      - POSTGRES_USER=andrehabboud
+      - POSTGRES_PASSWORD=4a50d6E700$$
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://andrehabboud:4a50d6E700$$@db:5432/taskmanager_db
+
+volumes:
+  postgres_data:
