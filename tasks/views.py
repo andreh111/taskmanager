@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 from .mongo_utils import log_event
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .signals import send_notification_email
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -23,6 +24,9 @@ class TaskViewSet(viewsets.ModelViewSet):
         if self.request.user and self.request.user.is_authenticated:
             user_id = self.request.user.id  # Get user ID
             log_event('task_created', {'user_id': user_id, 'task': serializer.instance.id})
+
+            # Trigger Celery task for email notification
+            send_notification_email.delay(self.request.user.email, serializer.instance.id)
 
 
 class RegisterView(generics.CreateAPIView):
