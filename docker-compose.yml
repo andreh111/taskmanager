@@ -30,8 +30,20 @@ services:
     depends_on:
       - db
       - mongodb_container
+      - redis
     environment:
       - DATABASE_URL=postgres://andrehabboud:4a50d6E700$$@db:5432/taskmanager_db
+
+  celery:
+    build: .
+    command: celery -A taskmanager worker --loglevel=info
+    volumes:
+      - .:/usr/src/app/
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:alpine"
 
 volumes:
   postgres_data:

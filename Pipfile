@@ -6,6 +6,13 @@ name = "pypi"
 [packages]
 pymongo = "*"
 djongo = "*"
+celery = "*"
+redis = "*"
+pip = "*"
+install = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

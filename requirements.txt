@@ -1,24 +1,31 @@
-asgiref==3.7.2
-certifi==2023.11.17
-charset-normalizer==3.3.2
-coverage==7.3.2
-Django==4.1.13
-django-filter==23.5
-django-mongolog==0.9.4
-djangorestframework==3.14.0
-djangorestframework-simplejwt==5.3.1
-djongo==1.3.6
-dnspython==2.4.2
-idna==3.6
-importlib-metadata==7.0.0
-Markdown==3.5.1
-mongo==0.2.0
-psycopg2-binary==2.9.9
-PyJWT==2.8.0
-pymongo==4.6.1
+-i https://pypi.org/simple
+amqp==5.2.0; python_version >= '3.6'
+asgiref==3.7.2; python_version >= '3.7'
+async-timeout==4.0.3; python_full_version <= '3.11.2'
+billiard==4.2.0; python_version >= '3.7'
+celery==5.3.6; python_version >= '3.8'
+click==8.1.7; python_version >= '3.7'
+click-didyoumean==0.3.0; python_full_version >= '3.6.2' and python_full_version < '4.0.0'
+click-plugins==1.1.1
+click-repl==0.3.0; python_version >= '3.6'
+django==4.1.13; python_version >= '3.8'
+djangorestframework==3.14.0; python_version >= '3.6'
+djangorestframework-simplejwt==5.3.1; python_version >= '3.8'
+djongo==1.3.6; python_version >= '3.6'
+dnspython==2.4.2; python_version >= '3.8' and python_version < '4.0'
+install==1.3.5; python_version >= '2.7'
+kombu==5.3.4; python_version >= '3.8'
+pip==23.3.1; python_version >= '3.7'
+prompt-toolkit==3.0.43; python_full_version >= '3.7.0'
+psycopg2==2.9.9; python_version >= '3.7'
+pyjwt==2.8.0; python_version >= '3.7'
+pymongo==4.6.1; python_version >= '3.7'
+python-dateutil==2.8.2; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
 pytz==2023.3.post1
-requests==2.31.0
-sqlparse==0.2.4
-typing_extensions==4.9.0
-urllib3==2.1.0
-zipp==3.17.0
+redis==5.0.1; python_version >= '3.7'
+six==1.16.0; python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'
+sqlparse==0.2.4; python_version >= '3.5'
+typing-extensions==4.9.0; python_version < '3.10'
+tzdata==2023.3; python_version >= '2'
+vine==5.1.0; python_version >= '3.6'
+wcwidth==0.2.12

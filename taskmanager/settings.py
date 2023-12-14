@@ -155,12 +155,13 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your-email@gmail.com'  # Your email address
-# EMAIL_HOST_PASSWORD = 'your-email-password'  # Your email password
+# email sending to test only in dev environment
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # MongoDB settings
 MONGO_DB_NAME = 'taskmanager_log_db'
 MONGO_DB_URL = 'mongodb://root:rootpassword@localhost:27019/'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
