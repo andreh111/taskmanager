@@ -1,7 +1,6 @@
 # Create your models here.
-from django.db import models
 from django.contrib.auth.models import User
-from djongo import models
+from django.db import models
 
 
 class Task(models.Model):

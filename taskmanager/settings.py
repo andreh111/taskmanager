@@ -164,3 +164,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # MongoDB settings
 MONGO_DB_NAME = 'taskmanager_log_db'
 MONGO_DB_URL = 'mongodb://root:rootpassword@localhost:27019/'
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
