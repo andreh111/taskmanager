@@ -10,6 +10,16 @@ services:
       - POSTGRES_USER=andreabboud
       - POSTGRES_PASSWORD=4a50d6E700$$
 
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27019:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -19,8 +29,10 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - mongodb_container
     environment:
       - DATABASE_URL=postgres://andrehabboud:4a50d6E700$$@db:5432/taskmanager_db
 
 volumes:
   postgres_data:
+  mongodb_data_container:
