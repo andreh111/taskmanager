@@ -10,7 +10,7 @@
 - Redis & Celery: for task queuing: in our case to send emails for created tasks
   (P.S: emails only handled in dev mode using `EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'` in `settings.py` file. in prod mode needed to be configure smtp settings etc..
 
-# Security not handled well => all our db passwords, API keys, etc... should be stored securely in env variables, etc... not handled in this task.
+### Security not handled well => all our db passwords, API keys, etc... should be stored securely in env variables, etc... not handled in this task.
 
 
 
