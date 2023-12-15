@@ -4,7 +4,7 @@
 `docker compose up --build -d`
 
 ## All the docker containers that are managed in `docker-compose.yml` file:
-- Django App
+- Django App (pipenv is used to manage this project dependencies so after installing a library we need to run `pipenv requirements > requirements.txt` to freeze it in requirements file and then we need to rerun `docker compose up --build -d`
 - Postgres: This is used to store our data
 - MongoDB: This is used for storing event logs
 - Redis & Celery: for task queuing: in our case to send emails for created tasks
