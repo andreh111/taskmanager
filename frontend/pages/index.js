@@ -35,7 +35,8 @@ export default function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("token", data.access); // Assuming the token is in data.access_token
+        localStorage.setItem("token", data.access);
+        localStorage.setItem("refresh", data.refresh);
         Router.push("/home");
       }
     } catch (error) {

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Table,
   Thead,
@@ -22,8 +23,10 @@ import {
   useToast,
   Select,
   Flex,
+  IconButton,
 } from "@chakra-ui/react";
 import Router from "next/router";
+import { getUserId } from "../helpers";
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
@@ -33,36 +36,69 @@ export default function Home() {
   const [priority, setPriority] = useState("Low"); // Default priority
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-
-    console.log(token);
-    if (!token) {
-      // If no token, redirect to login
-      Router.push("/");
+  const refreshAccessToken = async () => {
+    const refreshToken = localStorage.getItem("refresh");
+    if (!refreshToken) {
+      Router.push("/"); // redirect to login if no refresh token
+      return null;
     }
 
-    // API call to add a new task
     try {
-      const response = await fetch("http://0.0.0.0:8000/tasks/", {
+      const response = await fetch("http://0.0.0.0:8000/token/refresh/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Replace with actual token
         },
-        body: JSON.stringify({
-          title,
-          description,
-          created_by: 1, // Assuming the created_by field is needed
-          priority,
-        }),
+        body: JSON.stringify({ refresh: refreshToken }),
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      const data = await response.json();
+      localStorage.setItem("token", data.access); // Update the access token
+      return data.access;
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+      Router.push("/"); // redirect to login if refresh fails
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let token = localStorage.getItem("token");
+
+    const postData = async () => {
+      const response = await fetch("http://0.0.0.0:8000/tasks/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          created_by: getUserId(token),
+          priority,
+        }),
+      });
+
+      return response;
+    };
+
+    let response = await postData();
+
+    if (response.status === 401) {
+      // If token is expired
+      token = await refreshAccessToken();
+      if (!token) return;
+
+      response = await postData(); // Retry with new token
+    }
+
+    if (response.ok) {
       // Reset form and close modal
       setTitle("");
       setDescription("");
@@ -76,37 +112,81 @@ export default function Home() {
         duration: 5000,
         isClosable: true,
       });
+      fetchTasks();
 
       // Optional: Refresh tasks or update state to show the new task
-    } catch (error) {
-      console.error("Error adding task:", error.message);
+    } else {
+      // Handle other errors
+      console.error("Error adding task:", response.statusText);
+    }
+  };
+
+  const fetchTasks = useCallback(async () => {
+    let token = localStorage.getItem("token");
+
+    let response = await fetch("http://0.0.0.0:8000/tasks/", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 401) {
+      // If token is expired
+      token = await refreshAccessToken();
+      if (!token) return;
+
+      response = await fetch("http://0.0.0.0:8000/tasks/", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    if (response.ok) {
+      const data = await response.json();
+      setTasks(data);
+    } else {
+      // Handle errors other than token expiration here
+    }
+  }, []);
+
+  const deleteTask = async (taskId) => {
+    let token = localStorage.getItem("token");
+
+    const deleteData = async () => {
+      const response = await fetch(`http://0.0.0.0:8000/tasks/${taskId}/`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      return response;
+    };
+
+    let response = await deleteData();
+
+    if (response.status === 401) {
+      token = await refreshAccessToken();
+      if (!token) return;
+
+      response = await deleteData(); // Retry with new token
+    }
+
+    if (response.ok) {
+      fetchTasks(); // Refresh the task list after deletion
+    } else {
+      console.error("Error deleting task:", response.statusText);
+      // Handle other errors
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    console.log(token);
-    if (!token) {
-      // If no token, redirect to login
-      Router.push("/");
-    }
-    const fetchTasks = async () => {
-      const response = await fetch("http://0.0.0.0:8000/tasks/", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`, // Replace with your actual token
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setTasks(data);
-      }
-    };
-
     fetchTasks();
-  }, []);
+  }, [fetchTasks]);
 
   const onLogout = () => {
     localStorage.removeItem("token");
@@ -176,6 +256,7 @@ export default function Home() {
             <Th>Description</Th>
             <Th>Priority</Th>
             <Th>Due Date</Th>
+            <Th>Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -185,6 +266,13 @@ export default function Home() {
               <Td>{task.description}</Td>
               <Td>{task.priority}</Td>
               <Td>{task.updated_at}</Td>
+              <Td>
+                <IconButton
+                  aria-label="Delete task"
+                  icon={<DeleteIcon />}
+                  onClick={() => deleteTask(task.id)}
+                />
+              </Td>
             </Tr>
           ))}
         </Tbody>
