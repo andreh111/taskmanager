@@ -11,6 +11,6 @@ Celery
 and our app
 
 
-# To run the frontend `/frontend`
+# To run the frontend 
 
-run in frontend directory `npm run dev`
+run in `/frontend` directory `npm run dev`
