@@ -20,8 +20,8 @@ run in `/frontend` directory `npm run dev`
 
 
 
-<img width="600" alt="Screenshot 2023-12-15 at 11 29 18 AM" src="https://github.com/andreh111/taskmanager/assets/36291999/384c800e-ce96-4172-a2e3-10cc90fc67e2">
+<img width="700" alt="Screenshot 2023-12-15 at 11 29 18 AM" src="https://github.com/andreh111/taskmanager/assets/36291999/384c800e-ce96-4172-a2e3-10cc90fc67e2">
 
-<img width="600" alt="Screenshot 2023-12-15 at 11 29 57 AM" src="https://github.com/andreh111/taskmanager/assets/36291999/290eea58-1230-472b-8e32-b05b93cd6d0b">
+<img width="700" alt="Screenshot 2023-12-15 at 11 29 57 AM" src="https://github.com/andreh111/taskmanager/assets/36291999/290eea58-1230-472b-8e32-b05b93cd6d0b">
 
 
