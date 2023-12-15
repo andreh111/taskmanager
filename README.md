@@ -16,7 +16,7 @@
 
 # To run the frontend 
 
-run in `/frontend` directory `npm run dev`
+run in `/frontend` directory `npm run dev` (check Readme.md inside `frontend/` folder)
 
 
 
