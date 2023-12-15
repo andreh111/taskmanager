@@ -6,7 +6,7 @@ from .models import Task
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'updated_at', 'priority']
 
     def create(self, validated_data):
         # Custom creation logic (if needed)
@@ -16,7 +16,7 @@ class TaskSerializer(serializers.ModelSerializer):
         # Custom update logic (if needed)
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
-        instance.assigned_to = validated_data.get('assigned_to', instance.assigned_to)
+        instance.assigned_to = validated_data.get('created_by', instance.assigned_to)
         # Update other fields if needed
         instance.save()
         return instance

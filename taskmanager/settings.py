@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "tasks",
@@ -43,12 +44,18 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Add the origin of your Next.js app
+]
+
 
 ROOT_URLCONF = "taskmanager.urls"
 
@@ -158,10 +165,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # email sending to test only in dev environment
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
 # MongoDB settings
 MONGO_DB_NAME = 'taskmanager_log_db'
 MONGO_DB_URL = 'mongodb://root:rootpassword@localhost:27019/'
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
-
