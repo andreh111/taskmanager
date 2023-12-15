@@ -9,3 +9,8 @@ MongoDb
 Redis
 Celery
 and our app
+
+
+# To run the frontend `/frontend`
+
+run in frontend directory `npm run dev`
